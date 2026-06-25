@@ -1,3 +1,9 @@
+## 2026-06-25: 发布 v0.5.1
+- **文件:** `main.go`, `ocgt-monitor.exe`
+- **版本:** 0.4.0 → 0.5.1
+- **变更:** 修复套餐额度接口因 opencode.ai RPC 函数 ID 过期失效，改用页面抓取方式
+- **影响范围:** 版本号更新 + 重新构建 exe
+
 ## 2026-06-25: 修复套餐额度接口因 opencode.ai 服务端函数过期失效
 - **文件:** `internal/quota/opencode.go`
 - **根因:** opencode.ai TanStack RPC 服务端函数 ID（构建哈希 `c7389bd0e...`）过期，`_server` 接口返回 302/500，导致套餐额度数据获取失败
