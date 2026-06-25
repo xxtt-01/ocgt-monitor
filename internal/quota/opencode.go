@@ -131,12 +131,12 @@ func parseGoUsageRegex(text string) (*QuotaData, error) {
 		resetMs int
 	}
 	extract := func(key string) (windowMatch, bool) {
-		pctRe := regexp.MustCompile(key + `[^}]*?usagePercent\s*[:=]\s*([0-9]+(?:\.[0-9]+)?)`)
+		pctRe := regexp.MustCompile(key + `[^}]*?usagePercent"?\s*[:=]\s*([0-9]+(?:\.[0-9]+)?)`)
 		pm := pctRe.FindStringSubmatch(text)
 		if pm == nil {
 			return windowMatch{}, false
 		}
-		resetRe := regexp.MustCompile(key + `[^}]*?resetInSec\s*[:=]\s*([0-9]+)`)
+		resetRe := regexp.MustCompile(key + `[^}]*?resetInSec"?\s*[:=]\s*([0-9]+)`)
 		rm := resetRe.FindStringSubmatch(text)
 		resetSec := 0
 		if rm != nil {

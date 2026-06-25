@@ -1,3 +1,10 @@
+## 2026-06-25: 发布 v0.5.2 — 修复正则解析 JSON 格式失败
+- **文件:** `internal/quota/opencode.go`, `main.go`, `ocgt-monitor.exe`
+- **版本:** 0.5.1 → 0.5.2
+- **根因:** 正则 `usagePercent\s*[:=]` 未处理 JSON 中 `usagePercent":12` 的引号，当 opencode.ai 返回 JSON 格式时 regex 降级解析失败
+- **修复:** `usagePercent"?\s*[:=]` — 加 `"?` 可选匹配引号，兼容 JSON 和 JS 两种格式
+- **影响范围:** 仅 `parseGoUsageRegex` 中的正则模式
+
 ## 2026-06-25: 发布 v0.5.1
 - **文件:** `main.go`, `ocgt-monitor.exe`
 - **版本:** 0.4.0 → 0.5.1
