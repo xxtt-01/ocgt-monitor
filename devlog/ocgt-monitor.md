@@ -1,3 +1,11 @@
+## 2026-06-25: 修复套餐额度接口因 opencode.ai 服务端函数过期失效
+- **文件:** `internal/quota/opencode.go`
+- **根因:** opencode.ai TanStack RPC 服务端函数 ID（构建哈希 `c7389bd0e...`）过期，`_server` 接口返回 302/500，导致套餐额度数据获取失败
+- **决策:** 将数据来源从 `_server?id=<哈希>` RPC 代理调用改为直接抓取 `/workspace/{id}/go` 真实页面，与 token-monitor 项目已验证的方式一致
+- **解析改造:** 新增 JSON 优先解析 + 正则降级解析的双重保障；正则改得更宽松（同时兼容 `:` 和 `=` 分隔符）
+- **影响范围:** 仅 `opencode.go` 的 FetchQuota/RPC 调用逻辑，API 响应格式不变，前端无感
+- **踩坑:** TanStack 服务端函数 ID 每次部署都会变，不适合硬编码。更可靠的方式是直接请求目标页面而非通过 RPC 代理
+
 ## 2026-06-03 18:00: 修复配额错误处理导致 DOM 丢失崩溃
 - **文件:** `internal/web/static/sidebar.html`
 - **根因:** `fq()` 失败时用 `innerHTML` 替换配额区域，DOM 元素丢失；后续请求成功时访问不存在的元素抛空指针
